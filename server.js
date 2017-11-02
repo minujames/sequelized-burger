@@ -5,10 +5,12 @@ var expressHandleBars = require("express-handlebars");
 var routes = require("./controllers/burgers_controller.js");
 
 // Declaring port
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 
 // Initializing express app
 var app = express();
+
+var db = require("./models");
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
@@ -26,7 +28,9 @@ app.set("view engine", "handlebars");
 app.use("/", routes);
 
 // Listening on declared port
-app.listen(port, function(){
-  console.log("listening on port", port);
+db.sequelize.sync({ force: true }).then(function() {
+  app.listen(port, function() {
+    console.log("App listening on PORT " + port);
+  });
 });
  

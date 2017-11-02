@@ -1,29 +1,14 @@
-var orm = require("../config/orm.js");
+module.exports = function(sequelize, DataTypes) {
+  var Burger = sequelize.define("Burger", {
+    burger_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    devoured: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
+  });
 
-var burger = {
-  all: function(callBack) {
-    orm.all("burgers", function(result) {
-      callBack(result);
-    });
-  },
-
-  create: function(objColVals, callBack){
-    orm.create("burgers", objColVals, function(result){
-      callBack(result);
-    });
-  },
-
-  update: function(objColVals, condition, callBack){
-    orm.update("burgers", objColVals, condition, function(result) {
-      callBack(result);
-    });
-  },
-
-  delete: function(condition, callBack){
-    orm.delete("burgers", condition, function(result){
-      callBack(result);
-    });
-  }
+  return Burger;
 };
-
-module.exports = burger;
